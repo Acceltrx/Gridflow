@@ -28,7 +28,7 @@ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 unsigned long lastKeyPressTime = 0;
 const unsigned long displayDuration = 2000; 
 bool showingKey = false;
-char currentKey = ' '; // Store the last key pressed
+char currentKey = ' '; 
 
 void setup() {
   pinMode(buzzerPin, OUTPUT);
@@ -66,7 +66,7 @@ void loop() {
 
   if (key) {
     lcd.backlight(); 
-    currentKey = key; // Save this to show with the type later
+    currentKey = key; 
     
     if (key == '*') {
       Serial.println(key);
@@ -78,7 +78,7 @@ void loop() {
       lcd.print("Key Pressed:");
       lcd.setCursor(0, 1);
       lcd.print("> ");
-      lcd.print(key); // Initially show just the key
+      lcd.print(key); 
       Serial.println(key);
     }
     tone(buzzerPin, 3000, 25);
@@ -101,7 +101,7 @@ void loop() {
       lcd.backlight();
       playStartupSound();
     } 
-    // NEW: Handle Key Type command from Python
+    
     else if (data.startsWith("KT:")) {
       if (showingKey) {
         String type = data.substring(3);
@@ -110,7 +110,7 @@ void loop() {
         lcd.print(currentKey);
         lcd.print(" [");
         lcd.print(type);
-        lcd.print("]    "); // Spaces to clear old text
+        lcd.print("]    "); 
       }
     }
     else if (!showingKey) {
