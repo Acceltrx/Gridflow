@@ -1,0 +1,7 @@
+pyserial
+psutil
+pynvml
+pyautogui
+pystray
+Pillow
+winrt

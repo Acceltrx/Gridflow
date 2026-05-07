@@ -1,0 +1,36 @@
+# --- Python & Middleware ---
+__pycache__/
+*.pyc
+*.log
+src/__pycache__/
+
+# --- Build Artifacts (auto-py-to-exe) ---
+build/
+dist/
+*.spec
+*.exe
+
+# --- Arduino Artifacts ---
+# The folder structure in Grid-Flow-Arduino often generates these
+arduino/Gridflow/build/
+arduino/Gridflow/*.tmp
+arduino/Gridflow/*.bak
+arduino/Gridflow/*.hex
+arduino/Gridflow/*.elf
+arduino/Gridflow/*.bin
+arduino/Gridflow/*.map
+
+# --- OS & Junk Files ---
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# --- Environment & IDE ---
+.env
+venv/
+.vscode/
+.idea/
+
+# --- Configs (Keep the example, ignore the real one) ---
+# This ensures your personal paths and settings stay local
+config.json

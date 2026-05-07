@@ -1,0 +1,47 @@
+{
+  "settings": {
+    "port": "COM5",
+    "baud": 9600,
+    "idle_timeout_seconds": 300,
+    "grid_name": "Gridflow"
+  },
+  "custom_text": {
+    "line_1": "Welcome to",
+    "line_2": "Gridflow!"
+  },
+  "work_flow": {
+    "mode_1": {
+      "name": "Personal",
+      "path1": "C:/Users/{YOUR_USER}/AppData/Local/Programs/Notion/Notion.exe",
+      "url1": "https://mail.google.com/mail/u/1/#inbox",
+      "url2": "https://www.youtube.com",
+      "hotkey1": "Click(920, 1060)"
+    },
+    "mode_2": {
+      "name": "Work",
+      "path1": "C:/Users/{YOUR_USER}/AppData/Local/Programs/Opera GX/opera.exe",
+      "url1": "https://github.com/",
+      "combo1": ["win", "e"],
+      "path2": "C:/Users/{YOUR_USER}/AppData/Local/Programs/Microsoft VS Code/Code.exe"
+    },
+    "mode_3": {
+      "name": "School",
+      "path1": "C:/Users/{YOUR_USER}/AppData/Roaming/Spotify/Spotify.exe",
+      "url1": "https://classroom.google.com/"
+    }
+  },
+  "keys": {
+    "1": { "type": "app", "path": "C:/Path/To/Your/App.exe" },
+    "2": { "none": {} },
+    "3": { "none": {} },
+    "4": { "none": {} },
+    "5": { "none": {} },
+    "6": { "none": {} },
+    "7": { "type": "internal", "action": "work_flow", "mode": "mode_1" },
+    "8": { "type": "internal", "action": "work_flow", "mode": "mode_2" },
+    "9": { "type": "internal", "action": "work_flow", "mode": "mode_3" },
+    "0": { "type": "combo", "keys": ["win", "d"] },
+    "*": { "type": "internal", "action": "change_mode" },
+    "#": { "type": "internal", "action": "send_message", "trigger": "t", "content": "Ready!" }
+  }
+}
