@@ -2,7 +2,9 @@
 
 # ⚙️ Gridflow
 
-[insert image here]
+<img width="862" height="367" alt="image" src="https://github.com/user-attachments/assets/72a75d77-29e8-4366-ab05-54793686f962" />
+
+<br>
 
 **Gridflow** is a high-performance, open-source productivity ecosystem that bridges physical tactile control with advanced Windows automation. Inspired by professional macro pads like the *Stream Deck*, Gridflow transforms a standard 4x4 matrix keypad and an I2C LCD into a context-aware command center for your desktop.
 
@@ -110,5 +112,39 @@ To have Gridflow launch automatically when you sign into Windows:
 1. Press `Win + R`, type `shell:startup`, and hit **Enter**.
 2. Create a **Shortcut** of your `Gridflow Main.exe`.
 3. Drag and drop that shortcut into the Startup folder. Gridflow will now launch automatically on boot!
+
+---
+
+## 📸 Snapshots
+
+_[Top View]_
+<img width="901" height="407" alt="image" src="https://github.com/user-attachments/assets/32c22bb3-2b87-4a1a-ac88-c60c3ac402e8" />
+
+---
+
+_[Telemetry: Clock]_
+<img width="600" height="581" alt="image" src="https://github.com/user-attachments/assets/80da6e41-b9fc-4027-9515-0f4137e98422" />
+
+---
+
+_[Telemetry: PC Stats]_
+<img width="594" height="551" alt="image" src="https://github.com/user-attachments/assets/cc074e9f-09b9-490e-9d5e-44a9da1279cc" />
+_[Limitation: GPU usage stats are only compatible to Nvidia graphics cards (Since the code uses pynvml)]_ <br>
+_[Reminder: Update Nvidia graphics card to latest drivers to ensure function]_
+
+---
+
+_[Telemetry: Disk/Net Monitor]_
+<img width="597" height="516" alt="image" src="https://github.com/user-attachments/assets/d84ed3b8-b31c-4061-8d55-218acb9ea243" />
+
+---
+
+_[Telemetry: Media]_
+<img width="597" height="517" alt="image" src="https://github.com/user-attachments/assets/ad0abafd-e61f-457c-9fbe-496217fddc15" />
+
+---
+
+_[Telemetry: Custom Text]_
+<img width="596" height="497" alt="image" src="https://github.com/user-attachments/assets/461a5b3b-2ad2-4020-8ab6-3254a5050332" />
 
 ---

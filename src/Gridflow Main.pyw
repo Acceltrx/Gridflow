@@ -1,22 +1,19 @@
 import os
 import sys
 
-# This handles the difference between running as a script and running as an EXE
+
 if getattr(sys, 'frozen', False):
-    # If running as an EXE, BASE_DIR is the folder where the EXE is located
     BASE_DIR = os.path.dirname(sys.executable)
 else:
-    # If running as a normal .py script
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 LOG_FILE = os.path.join(BASE_DIR, 'debug_log.txt')
 
 import logging
-import re  # Added for coordinate parsing
-import webbrowser # Added for opening URLs
+import re  
+import webbrowser 
 
-# --- 1. IMMEDIATE LOGGING SETUP ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 LOG_FILE = os.path.join(BASE_DIR, 'debug_log.txt')
 
@@ -28,7 +25,6 @@ logging.basicConfig(
 
 logging.info("--- Script Startup ---")
 
-# --- 2. SECURE MODULE IMPORTS ---
 try:
     import serial
     import time
@@ -52,7 +48,6 @@ except Exception as e:
     logging.error(f"Unexpected error during import: {e}")
     sys.exit(1)
 
-# --- 3. CONFIGURATION WITH HOT RELOAD ---
 CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 last_config_mtime = 0
 config = {}
@@ -77,7 +72,6 @@ def load_config():
     
     return config
 
-# Initial load
 config = load_config()
 
 current_mode = 0 
@@ -85,7 +79,6 @@ modes = ["TIME/DATE", "SYSTEM STATS", "STORAGE/NET", "MEDIA MODE", "CUSTOM TEXT"
 running = True
 is_afk = False
 
-# --- AFK DETECTION ---
 class LASTINPUTINFO(ctypes.Structure):
     _fields_ = [("cbSize", ctypes.c_uint), ("dwTime", ctypes.c_uint)]
 
@@ -96,7 +89,6 @@ def get_idle_duration():
     millis = ctypes.windll.kernel32.GetTickCount() - lii.dwTime
     return millis / 1000.0
 
-# --- CUSTOM INTERNAL COMMANDS ---
 def send_message(trigger_key, message_text):
     try:
         pyautogui.press(trigger_key) 
@@ -106,20 +98,17 @@ def send_message(trigger_key, message_text):
     except Exception as e:
         logging.error(f"Error in send_message: {e}")   
 
-# GPU Check
 try:
     pynvml.nvmlInit()
     nvml_available = True
 except:
     nvml_available = False
 
-# --- LOGIC ---
 def execute_command(key_code, ser):
     """Processes keypress and sends the command type back to Arduino"""
     current_conf = load_config() 
     key_configs = current_conf.get('keys', {})
     
-    # If the key isn't in config, tell Arduino it's unmapped
     if key_code not in key_configs:
         try:
             ser.write(b"KT:none\n")
@@ -130,14 +119,12 @@ def execute_command(key_code, ser):
     cmd = key_configs[key_code]
     cmd_type = cmd.get('type', 'unknown')
     
-    # Send the type back to the Arduino to be displayed: KT:[type]
     try:
         ser.write(f"KT:{cmd_type}\n".encode())
         ser.flush()
     except Exception as e:
         logging.error(f"Failed to send KT feedback: {e}")
 
-    # Execute the actual action
     try:
         if cmd_type == "app": 
             subprocess.Popen(cmd['path'])
@@ -158,37 +145,30 @@ def execute_command(key_code, ser):
                 send_message(trigger, content)
             
             elif cmd['action'] == "work_flow":
-                mode_id = cmd.get('mode') # e.g. "mode_1"
+                mode_id = cmd.get('mode') 
                 workflow = current_conf.get('work_flow', {}).get(mode_id, {})
                 
                 logging.info(f"Triggering Workflow: {workflow.get('name', mode_id)}")
                 
-                # Iterate through all items in the chosen workflow mode
                 for item_key, value in workflow.items():
                     if not value or item_key == "name":
                         continue
                     
                     try:
-                        # 1. Handle Apps (Paths)
                         if item_key.startswith("path"):
                             subprocess.Popen(value)
                         
-                        # 2. Handle Websites (URLs)
                         elif item_key.startswith("url"):
                             webbrowser.open(value)
 
-                        # 3. Handle Key Combos
                         elif item_key.startswith("combo"):
                             if isinstance(value, list):
-                                # The * unpacks the list ["win", "e"] into pyautogui.hotkey("win", "e")
                                 pyautogui.hotkey(*value)
                             else:
                                 logging.error(f"Combo error: {item_key} must be a list in config.json")
                         
-                        # 4. Handle Hotkeys / Clicks
                         elif item_key.startswith("hotkey"):
                             if "Click" in value:
-                                # Extract numbers from Click(900, 1060)
                                 coords = re.findall(r'\d+', value)
                                 if len(coords) == 2:
                                     pyautogui.click(int(coords[0]), int(coords[1]))
@@ -278,7 +258,6 @@ def send_telemetry(ser):
             time.sleep(1) 
         except: break
 
-# --- CONNECTION & TRAY ---
 def connection_manager():
     logging.info("Connection Manager started.")
     while running:
