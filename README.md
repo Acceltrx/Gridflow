@@ -9,19 +9,20 @@
 **Gridflow** is a high-performance, open-source productivity ecosystem that bridges physical tactile control with advanced Windows automation. Inspired by professional macro pads like the *Stream Deck*, Gridflow transforms a standard 4x4 matrix keypad and an I2C LCD into a context-aware command center for your desktop.
 
 ## 🚀 Key Features
-*   **Workflow Orchestration:** Trigger complex sequences (opening multiple apps, URLs, and multi-key combos) with a single press.
-*   **Real-Time Telemetry:** Monitor your CPU, RAM, GPU, Disk, and Network speeds directly on a 16x2 I2C LCD.
-*   **Zero-UI Background Logic:** Runs efficiently in your System Tray with minimal resource impact (<1% CPU, <60MB RAM).
-*   **Hot-Reloading:** Modify your `config.json` and see changes take effect instantly—no restarts required.
-*   **AFK Awareness:** Automatically manages LCD backlighting based on user activity.
+- **Workflow Orchestration:** Trigger complex sequences — opening multiple apps, URLs, and multi-key combos — with a single press.
+- **Real-Time Telemetry:** Monitor your CPU, RAM, GPU, Disk, and Network speeds directly on a 16x2 I2C LCD.
+- **Zero-UI Background Logic:** Runs efficiently in your system tray with minimal resource impact (<1% CPU, <60MB RAM).
+- **Hot-Reloading:** Modify your `gridflow_config.json` and see changes take effect instantly — no restarts required.
+- **AFK Awareness:** Automatically manages LCD backlighting based on user activity.
+- **Ecosystem Ready:** Continuously syncs live telemetry and connection status with the **GridDash** HUD companion app.
 
 ---
 
 ## ⌨️ Hardware Requirements
-*   **Controller:** Arduino Uno R3
-*   **Input:** 4x4 Matrix Keypad (Pins D2-D9)
-*   **Output:** 16x2 I2C LCD Display (SDA to A4, SCL to A5)
-*   **Optional:** 5V Passive Buzzer ([-] to D10)
+- **Controller:** Arduino Uno R3
+- **Input:** 4x4 Matrix Keypad (Pins D2–D9)
+- **Output:** 16x2 I2C LCD Display (SDA → A4, SCL → A5)
+- **Optional:** 5V Passive Buzzer ([-] to D10)
 
 | Component | Pin (Arduino) |
 | :--- | :--- |
@@ -38,34 +39,37 @@
 
 ---
 
-## ⚙️ Configuration Setup & References
+## ⚙️ Configuration & References
 
-1. **Initialize:** Copy `config.example.json` and rename it to `config.json`.
-2. **Personalize:** Open `config.json` in your favorite editor.
-    *   **Settings:** Update the `"port"` (e.g., `COM5`) to match your Arduino's serial port.
-    *   **Paths:** Replace all `{YOUR_USER}` placeholders with your actual Windows username.
-    *   **Customization:** Define your own Apps, URLs, and Workflows within the JSON structure.
-3. **Launch:** Run `Gridflow Main.exe` (or `src/Gridflow Main.pyw` if using Python directly).
+Gridflow is designed for zero-friction setup.
+
+1. **Initialize:** Launch Gridflow. On first run, it automatically generates your default config at `%APPDATA%\GridFlow\gridflow_config.json`.
+2. **Personalize:** Open that file in any text editor.
+   - **Settings:** Set `"port"` (e.g. `COM5`) to match your Arduino's serial port.
+   - **Paths:** Replace all `{YOUR_USER}` placeholders with your actual Windows username.
+   - **Customization:** Define your own apps, URLs, and workflows within the JSON structure.
 
 ### Key Mappings (`"keys"`)
-The `keys` object maps your physical keypad inputs to specific actions:
-*   **App:** `{ "type": "app", "path": "C:/Path/To/App.exe" }`
-*   **URL:** `{ "type": "url", "path": "https://google.com" }`
-*   **Hotkey:** `{ "type": "hotkey", "action": "volumeup" }` (Supports standard `pyautogui` key names).
-*   **Combo:** `{ "type": "combo", "keys": ["win", "shift", "s"] }`
-*   **Internal:** 
-    *   **Change Mode:** `{ "type": "internal", "action": "change_mode" }` (5 idle screen display modes: Clock, PC stats, disk/net monitor, media, custom text)
-    *   **Send Text:** `{ "type": "internal", "action": "send_message", "trigger": "t", "content": "Hello from Gridflow!" }`
-    *   **Trigger Workflow:** `{ "type": "internal", "action": "work_flow", "mode": "mode_1" }` (You can create more workflows as you go)
+The `keys` object maps physical keypad inputs to actions:
+
+- **App:** `{ "type": "app", "path": "C:/Path/To/App.exe" }`
+- **URL:** `{ "type": "url", "path": "https://google.com" }`
+- **Hotkey:** `{ "type": "hotkey", "action": "volumeup" }` — supports standard `pyautogui` key names.
+- **Combo:** `{ "type": "combo", "keys": ["win", "shift", "s"] }`
+- **Internal:**
+  - **Change Mode:** `{ "type": "internal", "action": "change_mode" }` — cycles through 5 display modes: Clock, PC Stats, Disk/Net, Media, Custom Text.
+  - **Send Text:** `{ "type": "internal", "action": "send_message", "trigger": "t", "content": "Hello from Gridflow!" }`
+  - **Trigger Workflow:** `{ "type": "internal", "action": "work_flow", "mode": "mode_1" }` — add as many workflow modes as needed.
 
 ### Workflow Orchestration (`"work_flow"`)
-Workflows allow you to execute multiple tasks with one trigger. Inside a mode (e.g., `mode_1`), use these prefixes:
-*   `path[n]`: Launches an application.
-*   `url[n]`: Opens a website.
-*   `combo[n]`: Executes a key combination (must be a **list**, e.g., `["win", "e"]`).
-*   `hotkey[n]`: Can be a standard key or `Click(X, Y)` for mouse automation.
+Workflows let you execute multiple tasks from a single keypress. Inside each mode, use these key prefixes:
 
-**Example Structure:**
+- `path[n]` — launches an application.
+- `url[n]` — opens a URL in your default browser.
+- `combo[n]` — executes a key combination (must be a list, e.g. `["win", "e"]`).
+- `hotkey[n]` — a standard key name, or `Click(X, Y)` for mouse automation.
+
+**Example:**
 ```json
 "mode_1": {
   "name": "My Workflow",
@@ -79,39 +83,43 @@ Workflows allow you to execute multiple tasks with one trigger. Inside a mode (e
 ---
 
 ## 📋 Installation (Development)
-If you are running from source, ensure you have Python 3.x installed:
+
+Requires Python 3.x.
 
 ```bash
 # Clone the repository
 git clone https://github.com/YourUsername/Gridflow.git
+cd Gridflow
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Move config.json to src
 # Run the application
 python "src/Gridflow Main.pyw"
 ```
 
 ---
 
-## 🛠 Deployment & Automation
+## 🛠️ Deployment
 
-### Compiling to Executable
-If you prefer not to run the Python script manually, you can compile Gridflow into a standalone `.exe`:
-1. Install `auto-py-to-exe`: `pip install auto-py-to-exe`
-2. Run it by typing `auto-py-to-exe` in your terminal.
-3. Select `src/Gridflow Main.pyw` as the script location.
-4. **Icon:** In the "Icon" tab, select `assets/Gridflow_logo.ico`.
-5. **Data:** In the "Additional Files" tab, link your `config.json`.
-6. **Advanced:** Link your `version_info.txt` file for professional file properties.
-7. Convert the project. Your executable will appear in the `output` folder.
+### Compiling to a Standalone Executable
+
+1. Install the compiler: `pip install auto-py-to-exe`
+2. Launch it by running `auto-py-to-exe` in your terminal.
+3. **Script Location:** Select `src/Gridflow Main.pyw`.
+4. **Output:** Choose *Window Based (hide the console)*.
+5. **Icon:** Select `assets/Gridflow.ico`.
+6. **Additional Files:** Add the `assets` folder and map it to `assets` so the bundled executable can locate the icon at runtime.
+7. **Version Info (Optional):** Link your `version_info.txt` for professional file properties.
+8. Click **Convert .py to .exe**. The executable will appear in the `output` folder.
+
+> **Note:** No config file needs to be bundled — Gridflow auto-generates it in `%APPDATA%` on first launch.
 
 ### Launch on Startup
-To have Gridflow launch automatically when you sign into Windows:
-1. Press `Win + R`, type `shell:startup`, and hit **Enter**.
-2. Create a **Shortcut** of your `Gridflow Main.exe`.
-3. Drag and drop that shortcut into the Startup folder. Gridflow will now launch automatically on boot!
+
+1. Press `Win + R`, type `shell:startup`, and press **Enter**.
+2. Create a shortcut to your compiled `Gridflow Main.exe`.
+3. Move the shortcut into the Startup folder. Gridflow will now launch silently in your system tray on boot.
 
 ---
 
@@ -129,8 +137,8 @@ _[Telemetry: Clock]_
 
 _[Telemetry: PC Stats]_
 <img width="594" height="551" alt="image" src="https://github.com/user-attachments/assets/cc074e9f-09b9-490e-9d5e-44a9da1279cc" />
-_[Limitation: GPU usage stats are only compatible to Nvidia graphics cards (Since the code uses pynvml)]_ <br>
-_[Reminder: Update Nvidia graphics card to latest drivers to ensure function]_
+
+> GPU usage stats require an NVIDIA graphics card (pynvml). Ensure your NVIDIA drivers are up to date.
 
 ---
 
